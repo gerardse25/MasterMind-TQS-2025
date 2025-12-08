@@ -60,4 +60,21 @@ public class GameTest {
     assertEquals(0, game.getAttempts());
   }
 
+  /**
+   * Cada vegada que es fa un intent, s'ha d'incrementar el comptador d'intents.
+   */
+  @Test
+  void attempts_incrementsOnEachGuess() {
+    Code secret = new Code(new int[]{1,2,3,4});
+    Game game = new Game(secret);
+
+    assertEquals(0, game.getAttempts());
+
+    game.makeGuess(new int[]{0,0,0,0});
+    assertEquals(1, game.getAttempts());
+
+    game.makeGuess(new int[]{1,2,3,4});
+    assertEquals(2, game.getAttempts());
+  }
+
 }

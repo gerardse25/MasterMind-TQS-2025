@@ -33,6 +33,9 @@ public class Game {
    * @return resultat amb fitxes negres i blanques
    */
   public EvaluationResult makeGuess(int[] guessDigits) {
+    // Cada cop que el jugador fa un intent, incrementem el comptador
+    attempts++;
+
     // Creem el codi de l'intent a partir dels dígits
     Code guess = new Code(guessDigits);
 
