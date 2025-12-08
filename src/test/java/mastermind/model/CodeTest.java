@@ -73,12 +73,33 @@ public class CodeTest {
     Code secret = new Code(new int[]{1, 2, 3, 4});
     Code guess  = new Code(new int[]{1, 2, 3, 4});
 
-    // 2. Cridem el mètode que encara no existeix (el farem després)
+    // 2. Cridem el mètode evaluateGuess
     EvaluationResult result = Code.evaluateGuess(secret, guess);
 
     // 3. Comprovem el que hauria de passar
     assertEquals(4, result.getBlackPegs()); // 4 negres
     assertEquals(0, result.getWhitePegs()); // 0 blanques
   }
+
+  /**
+   * Cas de prova evaluateGuess:
+   * Un sol dígit a la posició correcta, la resta incorrectes.
+   * Esperem: 1 negre, 0 blanques.
+   * Caixa negra – partició equivalent de “1 encert exacte”.
+   */
+  @Test
+  void evaluateGuess_oneBlackNoWhites() {
+    // 1. Creem el codi secret i l'intent
+    Code secret = new Code(new int[]{1, 2, 3, 4});
+    Code guess  = new Code(new int[]{1, 9, 9, 9});
+
+    // 2. Cridem el mètode evaluateGuess
+    EvaluationResult result = Code.evaluateGuess(secret, guess);
+
+    // 3. Comprovem el que hauria de passar
+    assertEquals(1, result.getBlackPegs()); // 1 negra
+    assertEquals(0, result.getWhitePegs());  // 0 blanques
+  }
+
 
 }
