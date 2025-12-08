@@ -12,17 +12,23 @@ public class MastermindControllerTest {
 
   private static class FakeView implements MastermindView {
     boolean welcomeShown = false;
+    int askForGuessCount = 0;  // comptador de vegades que es demana un intent
 
     @Override
     public void showWelcome() {
       welcomeShown = true;
     }
 
-    @Override public void askForGuess() {}
+    @Override
+    public void askForGuess() {
+      askForGuessCount++;
+    }
+
     @Override public void showResult(int b, int w, int a) {}
     @Override public void showWin(int attempts) {}
     @Override public void showGameOver() {}
   }
+
 
   @Test
   void startGame_showsWelcomeMessage() {
@@ -34,4 +40,22 @@ public class MastermindControllerTest {
 
     assertTrue(view.welcomeShown);
   }
+
+  /**
+   * En iniciar la partida s'ha de mostrar la benvinguda
+   * i demanar el primer intent al jugador.
+   */
+  @Test
+  void startGame_asksForFirstGuess() {
+    FakeView view = new FakeView();
+    Game game = new Game(new Code(new int[]{1,2,3,4}));
+    MastermindController controller = new MastermindController(game, view);
+
+    controller.startGame();
+
+    assertTrue(view.welcomeShown);
+    assertEquals(1, view.askForGuessCount);
+  }
+
+
 }
