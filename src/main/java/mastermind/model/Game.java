@@ -67,7 +67,10 @@ public class Game {
   }
 
   public boolean isOver() {
-    return won;   // de moment només mirem si està guanyada
+    // La partida està acabada si s'ha guanyat
+    // o si ja s'han exhaurit els intents.
+    return won || attempts >= MAX_ATTEMPTS;
   }
+
 
 }
