@@ -132,10 +132,11 @@ public class MastermindControllerTest {
 
   /**
    * Cas de prova: quan el jugador arriba al màxim d'intents
-   * sense encertar el codi, el controlador ha de mostrar GAME OVER
-   * i no ha de demanar més intents.
-   *
-   * Es tracta d'una prova de caixa negra del controlador.
+   * sense encertar el codi, el controlador ha de:
+   *  - marcar la partida com acabada,
+   *  - mostrar el missatge de GAME OVER,
+   *  - i no demanar més intents després de l'últim.
+   * Prova de caixa negra del controlador.
    */
   @Test
   void handleGuess_showsGameOver_whenMaxAttemptsReached() {
@@ -143,17 +144,22 @@ public class MastermindControllerTest {
     Game game = new Game(new Code(new int[]{1,2,3,4}));
     MastermindController controller = new MastermindController(game, view);
 
-    // Forcem que la partida arribi al màxim d'intents (10)
+    // Fem 10 intents equivocats
     for (int i = 0; i < 10; i++) {
-      controller.handleGuess(new int[]{0,0,0,0});  // mai encertem
+      controller.handleGuess(new int[]{0,0,0,0});
     }
 
-    // Comprovem que la vista ha mostrat Game Over exactament 1 vegada
+    // S'han fet exactament 10 intents
+    assertEquals(10, game.getAttempts());
+
+    // La vista ha de mostrar GAME OVER exactament un cop
     assertEquals(1, view.showGameOverCount);
 
-    // No s'ha de demanar cap altre intent després de la fi de la partida
-    assertEquals(0, view.askForGuessCount - 10); // només les 10 primeres
+    // askForGuess s'ha d'haver cridat 9 vegades:
+    // després de cada intent, menys l'últim (ja està acabada la partida)
+    assertEquals(9, view.askForGuessCount);
   }
+
 
 
 }

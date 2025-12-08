@@ -21,27 +21,37 @@ public class MastermindController {
     view.askForGuess();  // demanem el primer intent
   }
 
+  /**
+   * Gestiona un intent del jugador:
+   * - mostra el resultat,
+   * - comprova si s'ha guanyat,
+   * - comprova si s'ha acabat la partida per intents,
+   * - i si no, demana un altre intent.
+   */
   public void handleGuess(int[] digits) {
+
+    // Avaluem l'intent
     var result = game.makeGuess(digits);
 
-    // Mostrem resultat normalment
+    // Mostrem negres/blanques i intents
     view.showResult(result.getBlackPegs(), result.getWhitePegs(), game.getAttempts());
 
-    // Si la partida s'ha guanyat → MOSTRAR WIN i no demanar més intents
+    // Si el jugador ha encertat, partida guanyada
     if (game.isWon()) {
       view.showWin(game.getAttempts());
       return;
     }
 
-    // Si la partida s'ha acabat per intents → mostrar Game Over
+    // Si la partida s'ha acabat per massa intents, mostrem Game Over
     if (game.isOver()) {
       view.showGameOver();
       return;
     }
 
-    // Si no s'ha acabat → demanar un altre intent
+    // Si la partida continua, demanem un altre intent
     view.askForGuess();
   }
+
 
 
 
