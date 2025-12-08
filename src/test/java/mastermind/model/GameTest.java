@@ -88,4 +88,22 @@ public class GameTest {
     assertFalse(game.isOver());
   }
 
+  /**
+   * La partida s'ha d'acabar quan s'arriba al màxim d'intents
+   * encara que no s'hagi encertat el codi.
+   */
+  @Test
+  void isOver_trueWhenMaxAttemptsReached() {
+    Code secret = new Code(new int[]{1,2,3,4});
+    Game game = new Game(secret);
+
+    // Fem 10 intents equivocats
+    for (int i = 0; i < 10; i++) {
+      game.makeGuess(new int[]{0,0,0,0}); // mai encertem
+    }
+
+    assertEquals(10, game.getAttempts());
+    assertTrue(game.isOver());
+  }
+
 }
