@@ -13,6 +13,11 @@ public class CodeTest {
     assertEquals(4, secret.length()); // Ha de tenir longitud 4
   }
 
+  @Test
+  void generateSecret_lengthMustBePositive() {
+    assertThrows(IllegalArgumentException.class,
+        () -> Code.generateSecret(0));
+  }
 
 
 }
