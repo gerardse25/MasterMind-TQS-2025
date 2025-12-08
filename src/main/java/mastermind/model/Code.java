@@ -59,16 +59,44 @@ public class Code {
    * @return objecte EvaluationResult amb black i white pegs
    */
   public static EvaluationResult evaluateGuess(Code secret, Code guess) {
-    int black = 0;
+    int[] secretDigits = secret.getDigits();
+    int[] guessDigits  = guess.getDigits();
 
-    for (int i = 0; i < secret.length(); i++) {
-      if (secret.getDigits()[i] == guess.getDigits()[i]) {
+    // Marquem quines posicions ja hem “gastat” (per no comptar dues vegades)
+    boolean[] secretUsed = new boolean[secretDigits.length];
+    boolean[] guessUsed  = new boolean[guessDigits.length];
+
+    int black = 0;
+    int white = 0;
+
+    // PRIMER PAS: comptar negres (encerts exactes)
+    for (int i = 0; i < secretDigits.length; i++) {
+      if (secretDigits[i] == guessDigits[i]) {
         black++;
+        secretUsed[i] = true; // aquesta posició del secret ja està gastada
+        guessUsed[i] = true;  // aquesta posició del guess també
       }
     }
 
-    return new EvaluationResult(black, 0); // white de moment 0
+    // SEGON PAS: comptar blanques (encerts però en posició diferent)
+    for (int i = 0; i < guessDigits.length; i++) {
+      // Només mirem els dígits del guess que no són negres
+      if (!guessUsed[i]) {
+        // Busquem si aquest dígit existeix en alguna posició lliure del secret
+        for (int j = 0; j < secretDigits.length; j++) {
+          // Només mirem posicions del secret que encara no hem gastat
+          if (!secretUsed[j] && guessDigits[i] == secretDigits[j]) {
+            white++;
+            secretUsed[j] = true; // gastem aquesta posició del secret
+            break;                 // sortim del for j, aquest dígit del guess ja està comptat
+          }
+        }
+      }
+    }
+
+    return new EvaluationResult(black, white);
   }
+
 
 
 

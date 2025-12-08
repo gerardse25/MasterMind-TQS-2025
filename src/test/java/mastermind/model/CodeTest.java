@@ -101,5 +101,21 @@ public class CodeTest {
     assertEquals(0, result.getWhitePegs());  // 0 blanques
   }
 
+  /**
+   * Cas de prova evaluateGuess:
+   * Tots els dígits són correctes però a la posició equivocada.
+   * Esperem: 0 negres, 4 blanques.
+   * Caixa negra – partició equivalent de “tots correctes però desplaçats”.
+   */
+  @Test
+  void evaluateGuess_allDigitsCorrectWrongPosition() {
+    Code secret = new Code(new int[]{1, 2, 3, 4});
+    Code guess  = new Code(new int[]{4, 3, 2, 1});
+
+    EvaluationResult result = Code.evaluateGuess(secret, guess);
+
+    assertEquals(0, result.getBlackPegs());
+    assertEquals(4, result.getWhitePegs());
+  }
 
 }
