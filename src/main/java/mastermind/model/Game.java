@@ -20,13 +20,28 @@ public class Game {
   }
 
   /**
-   * Encara no implementem la lògica real.
-   * De moment retornem un resultat buit.
+   * Avalua un intent del jugador respecte del codi secret.
+   *
+   * @param guessDigits dígits de l'intent del jugador
+   * @return resultat amb fitxes negres i blanques
    */
   public EvaluationResult makeGuess(int[] guessDigits) {
+    // Creem el codi de l'intent a partir dels dígits
     Code guess = new Code(guessDigits);
-    return Code.evaluateGuess(secret, guess);
+
+    // Avaluem l'intent comparant-lo amb el codi secret
+    EvaluationResult result = Code.evaluateGuess(secret, guess);
+
+    // Si tots els dígits són correctes, la partida queda guanyada
+    if (result.getBlackPegs() == secret.length()) {
+      won = true;
+    }
+
+    // Retornem el resultat per poder-lo mostrar o tractar des de fora
+    return result;
   }
+
+
 
   public Code getSecret() {
     return secret;
