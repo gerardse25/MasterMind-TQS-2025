@@ -24,4 +24,16 @@ public class GameTest {
     assertEquals(4, result.getBlackPegs());
     assertEquals(0, result.getWhitePegs());
   }
+
+  /**
+   * Inicialment, una partida NO està guanyada.
+   */
+  @Test
+  void isWon_initiallyFalse() {
+    Code secret = new Code(new int[]{1,2,3,4});
+    Game game = new Game(secret);
+
+    assertFalse(game.isWon());
+  }
+
 }
