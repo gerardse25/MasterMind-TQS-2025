@@ -118,4 +118,65 @@ public class CodeTest {
     assertEquals(4, result.getWhitePegs());
   }
 
+  /**
+   * Cas de prova: 1 blanca i 0 negres.
+   * Ex: el dígit 1 hi és però en una altra posició.
+   */
+  @Test
+  void evaluateGuess_oneWhiteNoBlacks() {
+    Code secret = new Code(new int[]{1,2,3,4});
+    Code guess  = new Code(new int[]{9,1,9,9});
+
+    EvaluationResult result = Code.evaluateGuess(secret, guess);
+
+    assertEquals(0, result.getBlackPegs());
+    assertEquals(1, result.getWhitePegs());
+  }
+
+  /**
+   * Cas de prova amb duplicats al guess.
+   * El secret té un sol '1', però el guess en té quatre.
+   * Només ha de comptar 1 negra i cap blanca extra.
+   */
+  @Test
+  void evaluateGuess_duplicatesInGuess() {
+    Code secret = new Code(new int[]{1,2,3,4});
+    Code guess  = new Code(new int[]{1,1,1,1});
+
+    EvaluationResult result = Code.evaluateGuess(secret, guess);
+
+    assertEquals(1, result.getBlackPegs());
+    assertEquals(0, result.getWhitePegs());
+  }
+
+  /**
+   * Cas amb duplicats al secret i al guess.
+   * Resultat esperat: 2 negres i 2 blanques.
+   */
+  @Test
+  void evaluateGuess_duplicatesMixed() {
+    Code secret = new Code(new int[]{1,1,2,2});
+    Code guess  = new Code(new int[]{1,2,1,2});
+
+    EvaluationResult result = Code.evaluateGuess(secret, guess);
+
+    assertEquals(2, result.getBlackPegs());
+    assertEquals(2, result.getWhitePegs());
+  }
+
+  /**
+   * Cas amb duplicats al secret i al guess.
+   * Resultat esperat: 0 negres i 4 blanques.
+   */
+  @Test
+  void evaluateGuess_duplicatesMixed_noBlacks_allWhites() {
+    Code secret = new Code(new int[]{1,1,2,2});
+    Code guess  = new Code(new int[]{2,2,1,1});
+
+    EvaluationResult result = Code.evaluateGuess(secret, guess);
+
+    assertEquals(0, result.getBlackPegs());
+    assertEquals(4, result.getWhitePegs());
+  }
+
 }
