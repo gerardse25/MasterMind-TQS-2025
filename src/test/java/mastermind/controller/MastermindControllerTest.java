@@ -15,6 +15,7 @@ public class MastermindControllerTest {
     int askForGuessCount = 0; // comptador de vegades que es demana un intent
     int showResultCount = 0;
     int showWinCount = 0;
+    int showGameOverCount = 0;
 
 
     @Override
@@ -37,7 +38,10 @@ public class MastermindControllerTest {
       showWinCount++;
     }
 
-    @Override public void showGameOver() {}
+    @Override
+    public void showGameOver() {
+      showGameOverCount++;
+    }
   }
 
 
@@ -68,7 +72,14 @@ public class MastermindControllerTest {
     assertEquals(1, view.askForGuessCount);
   }
 
-
+  /**
+   * Cas de prova: intent incorrecte amb la partida encara en curs.
+   * Comprovem que:
+   *  - s'incrementa el nombre d'intents,
+   *  - es mostra el resultat una vegada,
+   *  - i es torna a demanar un nou intent.
+   * Prova de caixa negra del controlador.
+   */
   @Test
   void handleGuess_showsResultAndAsksAgain_ifNotOver() {
     FakeView view = new FakeView();
@@ -91,7 +102,14 @@ public class MastermindControllerTest {
     assertEquals(1, view.askForGuessCount);
   }
 
-
+  /**
+   * Cas de prova: el jugador encerta el codi.
+   * Comprovem que:
+   *  - es mostra el resultat,
+   *  - es mostra el missatge de victòria,
+   *  - i NO es demanen més intents.
+   * Prova de caixa negra del controlador.
+   */
   @Test
   void handleGuess_showsWinAndDoesNotAskAgain_whenPlayerWins() {
     FakeView view = new FakeView();
@@ -109,6 +127,32 @@ public class MastermindControllerTest {
 
     // Ha d'haver mostrat el resultat també
     assertEquals(1, view.showResultCount);
+  }
+
+
+  /**
+   * Cas de prova: quan el jugador arriba al màxim d'intents
+   * sense encertar el codi, el controlador ha de mostrar GAME OVER
+   * i no ha de demanar més intents.
+   *
+   * Es tracta d'una prova de caixa negra del controlador.
+   */
+  @Test
+  void handleGuess_showsGameOver_whenMaxAttemptsReached() {
+    FakeView view = new FakeView();
+    Game game = new Game(new Code(new int[]{1,2,3,4}));
+    MastermindController controller = new MastermindController(game, view);
+
+    // Forcem que la partida arribi al màxim d'intents (10)
+    for (int i = 0; i < 10; i++) {
+      controller.handleGuess(new int[]{0,0,0,0});  // mai encertem
+    }
+
+    // Comprovem que la vista ha mostrat Game Over exactament 1 vegada
+    assertEquals(1, view.showGameOverCount);
+
+    // No s'ha de demanar cap altre intent després de la fi de la partida
+    assertEquals(0, view.askForGuessCount - 10); // només les 10 primeres
   }
 
 
