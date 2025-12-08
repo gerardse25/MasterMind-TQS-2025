@@ -9,6 +9,8 @@ public class Game {
   private final Code secret;
   private boolean won = false;
   private int attempts = 0;  // intents fets fins ara
+  private static final int MAX_ATTEMPTS = 10;
+
 
 
   /** Crea una nova partida amb un codi secret aleatori de longitud 4. */

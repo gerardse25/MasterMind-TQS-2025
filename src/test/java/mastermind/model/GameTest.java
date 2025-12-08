@@ -77,4 +77,15 @@ public class GameTest {
     assertEquals(2, game.getAttempts());
   }
 
+  /**
+   * Inicialment, la partida no ha d'estar acabada.
+   */
+  @Test
+  void isOver_initiallyFalse() {
+    Code secret = new Code(new int[]{1,2,3,4});
+    Game game = new Game(secret);
+
+    assertFalse(game.isOver());
+  }
+
 }
