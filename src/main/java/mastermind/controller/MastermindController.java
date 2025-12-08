@@ -21,4 +21,17 @@ public class MastermindController {
     view.askForGuess();  // demanem el primer intent
   }
 
+  public void handleGuess(int[] digits) {
+    var result = game.makeGuess(digits);
+
+    // Mostrem negres, blanques i intents acumulats
+    view.showResult(result.getBlackPegs(), result.getWhitePegs(), game.getAttempts());
+
+    // Si la partida no ha acabat, demanem un altre intent
+    if (!game.isOver()) {
+      view.askForGuess();
+    }
+  }
+
+
 }
