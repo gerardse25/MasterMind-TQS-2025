@@ -18,5 +18,7 @@ public class MastermindController {
 
   public void startGame() {
     view.showWelcome();
+    view.askForGuess();  // demanem el primer intent
   }
+
 }
