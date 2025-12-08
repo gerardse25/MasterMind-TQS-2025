@@ -65,4 +65,9 @@ public class Game {
   public boolean isWon() {
     return won;
   }
+
+  public boolean isOver() {
+    return won;   // de moment només mirem si està guanyada
+  }
+
 }
