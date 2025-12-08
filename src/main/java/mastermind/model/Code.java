@@ -50,4 +50,26 @@ public class Code {
 
     return new Code(digits);
   }
+
+  /**
+   * Avalua un intent comparat amb el codi secret.
+   *
+   * @param secret el codi secret
+   * @param guess l'intent del jugador
+   * @return objecte EvaluationResult amb black i white pegs
+   */
+  public static EvaluationResult evaluateGuess(Code secret, Code guess) {
+    int black = 0;
+
+    for (int i = 0; i < secret.length(); i++) {
+      if (secret.getDigits()[i] == guess.getDigits()[i]) {
+        black++;
+      }
+    }
+
+    return new EvaluationResult(black, 0); // white de moment 0
+  }
+
+
+
 }

@@ -62,4 +62,23 @@ public class CodeTest {
     );
   }
 
+  /**
+   * Si el codi secret i l'intent són iguals,
+   * el resultat ha de retornar 4 negres i 0 blanques.
+   */
+  @Test
+  void evaluateGuess_allDigitsCorrect() {
+
+    // 1. Creem el codi secret i l'intent
+    Code secret = new Code(new int[]{1, 2, 3, 4});
+    Code guess  = new Code(new int[]{1, 2, 3, 4});
+
+    // 2. Cridem el mètode que encara no existeix (el farem després)
+    EvaluationResult result = Code.evaluateGuess(secret, guess);
+
+    // 3. Comprovem el que hauria de passar
+    assertEquals(4, result.getBlackPegs()); // 4 negres
+    assertEquals(0, result.getWhitePegs()); // 0 blanques
+  }
+
 }
