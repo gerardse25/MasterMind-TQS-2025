@@ -23,7 +23,8 @@ public class Game {
    * De moment retornem un resultat buit.
    */
   public EvaluationResult makeGuess(int[] guessDigits) {
-    return new EvaluationResult(0, 0);
+    Code guess = new Code(guessDigits);
+    return Code.evaluateGuess(secret, guess);
   }
 
   public Code getSecret() {
