@@ -14,6 +14,8 @@ public class MastermindControllerTest {
     boolean welcomeShown = false;
     int askForGuessCount = 0; // comptador de vegades que es demana un intent
     int showResultCount = 0;
+    int showWinCount = 0;
+
 
     @Override
     public void showWelcome() {
@@ -30,7 +32,11 @@ public class MastermindControllerTest {
       showResultCount++;
     }
 
-    @Override public void showWin(int attempts) {}
+    @Override
+    public void showWin(int attempts) {
+      showWinCount++;
+    }
+
     @Override public void showGameOver() {}
   }
 
@@ -61,6 +67,8 @@ public class MastermindControllerTest {
     assertTrue(view.welcomeShown);
     assertEquals(1, view.askForGuessCount);
   }
+
+
   @Test
   void handleGuess_showsResultAndAsksAgain_ifNotOver() {
     FakeView view = new FakeView();
@@ -81,6 +89,26 @@ public class MastermindControllerTest {
 
     // Després ha de tornar a demanar un altre intent
     assertEquals(1, view.askForGuessCount);
+  }
+
+
+  @Test
+  void handleGuess_showsWinAndDoesNotAskAgain_whenPlayerWins() {
+    FakeView view = new FakeView();
+    Game game = new Game(new Code(new int[]{1,2,3,4}));
+    MastermindController controller = new MastermindController(game, view);
+
+    // Fem un intent correcte
+    controller.handleGuess(new int[]{1,2,3,4});
+
+    // La vista ha de mostrar un WIN exactament 1 cop
+    assertEquals(1, view.showWinCount);
+
+    // No ha de demanar un altre intent
+    assertEquals(0, view.askForGuessCount);
+
+    // Ha d'haver mostrat el resultat també
+    assertEquals(1, view.showResultCount);
   }
 
 
