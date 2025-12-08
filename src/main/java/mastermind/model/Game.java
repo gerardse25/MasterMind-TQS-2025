@@ -7,6 +7,7 @@ package mastermind.model;
 public class Game {
 
   private final Code secret;
+  private boolean won = false;
 
   /** Crea una nova partida amb un codi secret aleatori de longitud 4. */
   public Game() {
@@ -29,5 +30,12 @@ public class Game {
 
   public Code getSecret() {
     return secret;
+  }
+
+  /**
+   * Indica si la partida ja s'ha guanyat.
+   */
+  public boolean isWon() {
+    return won;
   }
 }
