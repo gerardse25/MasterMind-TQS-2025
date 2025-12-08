@@ -8,6 +8,8 @@ public class Game {
 
   private final Code secret;
   private boolean won = false;
+  private int attempts = 0;  // intents fets fins ara
+
 
   /** Crea una nova partida amb un codi secret aleatori de longitud 4. */
   public Game() {
@@ -18,6 +20,11 @@ public class Game {
   public Game(Code secret) {
     this.secret = secret;
   }
+
+  public int getAttempts() {
+    return attempts;
+  }
+
 
   /**
    * Avalua un intent del jugador respecte del codi secret.

@@ -49,4 +49,15 @@ public class GameTest {
     assertTrue(game.isWon());
   }
 
+  /**
+   * Inicialment, el nombre d'intents ha de ser 0.
+   */
+  @Test
+  void attempts_initiallyZero() {
+    Code secret = new Code(new int[]{1,2,3,4});
+    Game game = new Game(secret);
+
+    assertEquals(0, game.getAttempts());
+  }
+
 }
