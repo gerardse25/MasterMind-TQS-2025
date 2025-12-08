@@ -19,5 +19,16 @@ public class CodeTest {
         () -> Code.generateSecret(0));
   }
 
+  @Test
+  void generateSecret_digitsMustBeBetween0And5() {
+    Code secret = Code.generateSecret(4);
+
+    for (int d : secret.getDigits()) {
+      assertTrue(d >= 0 && d <= 5,
+          "Digit out of bounds: " + d);
+    }
+  }
+
+
 
 }
