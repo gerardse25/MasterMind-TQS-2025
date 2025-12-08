@@ -35,5 +35,18 @@ public class GameTest {
 
     assertFalse(game.isWon());
   }
+  /**
+   * Si el jugador encerta el codi, la partida queda guanyada.
+   */
+  @Test
+  void isWon_becomesTrueAfterCorrectGuess() {
+    Code secret = new Code(new int[]{1,2,3,4});
+    Game game = new Game(secret);
+
+    // Encerta el codi
+    game.makeGuess(new int[]{1,2,3,4});
+
+    assertTrue(game.isWon());
+  }
 
 }
