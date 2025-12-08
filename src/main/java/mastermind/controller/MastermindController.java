@@ -24,14 +24,25 @@ public class MastermindController {
   public void handleGuess(int[] digits) {
     var result = game.makeGuess(digits);
 
-    // Mostrem negres, blanques i intents acumulats
+    // Mostrem resultat normalment
     view.showResult(result.getBlackPegs(), result.getWhitePegs(), game.getAttempts());
 
-    // Si la partida no ha acabat, demanem un altre intent
-    if (!game.isOver()) {
-      view.askForGuess();
+    // Si la partida s'ha guanyat → MOSTRAR WIN i no demanar més intents
+    if (game.isWon()) {
+      view.showWin(game.getAttempts());
+      return;
     }
+
+    // Si la partida s'ha acabat per intents → mostrar Game Over
+    if (game.isOver()) {
+      view.showGameOver();
+      return;
+    }
+
+    // Si no s'ha acabat → demanar un altre intent
+    view.askForGuess();
   }
+
 
 
 
