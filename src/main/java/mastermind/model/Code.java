@@ -28,19 +28,19 @@ public class Code {
   }
 
   /**
-   * Genera un codi secret amb longitud donada i dígits dins el rang [0..5].
-   * Prova de caixa negra: determinista pel contracte, però implementació interna oculta.
+   * Genera un codi secret amb longitud donada utilitzant el Random indicat.
+   * Aquest mètode és útil per als tests, on podem injectar un FakeRandom.
    *
    * @param length longitud del codi
+   * @param random generador de nombres (pot ser un mock als tests)
    * @return instància de Code amb dígits vàlids
-   * @throws IllegalArgumentException si length <= 0 (cas límit)
+   * @throws IllegalArgumentException si length <= 0
    */
-  public static Code generateSecret(int length) {
+  public static Code generateSecret(int length, Random random) {
     if (length <= 0) {
       throw new IllegalArgumentException("Length must be positive");
     }
 
-    Random random = new Random();               // Generador d'aleatorietat
     int[] digits = new int[length];
 
     // Loop simple (més endavant servirà per loop testing)
@@ -50,6 +50,15 @@ public class Code {
 
     return new Code(digits);
   }
+
+  /**
+   * Versió habitual de generateSecret que fa servir un Random real.
+   * Aquesta és la que crida el joc en producció.
+   */
+  public static Code generateSecret(int length) {
+    return generateSecret(length, new Random());
+  }
+
 
   /**
    * Avalua un intent comparat amb el codi secret.

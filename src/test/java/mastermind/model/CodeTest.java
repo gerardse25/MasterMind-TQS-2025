@@ -3,6 +3,8 @@ package mastermind.model;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import mastermind.mocks.FakeRandom;
+
 /**
  * Proves de caixa negra del mètode generateSecret().
  * S’avaluen particions equivalents, casos límit i propietats del resultat.
@@ -177,6 +179,21 @@ public class CodeTest {
 
     assertEquals(0, result.getBlackPegs());
     assertEquals(4, result.getWhitePegs());
+  }
+
+  /**
+   * Prova de caixa negra amb mock:
+   * verifiquem que generateSecret utilitza el Random injectat.
+   * Com que fem servir FakeRandom, el secret generat ha de ser exactament
+   * la seqüència {1,2,3,4}.
+   */
+  @Test
+  void generateSecret_usesInjectedRandom() {
+    FakeRandom fakeRandom = new FakeRandom(1, 2, 3, 4);
+
+    Code secret = Code.generateSecret(4, fakeRandom);
+
+    assertArrayEquals(new int[]{1, 2, 3, 4}, secret.getDigits());
   }
 
 }

@@ -160,6 +160,70 @@ public class MastermindControllerTest {
     assertEquals(9, view.askForGuessCount);
   }
 
+  /**
+   * Segon mock de la Vista.
+   * En lloc de comptar trucades, guarda l'últim resultat mostrat pel controlador.
+   * Ens serveix per comprovar què s'ha passat exactament a showResult / showWin.
+   */
+  private static class RecordingView implements MastermindView {
+
+    int lastBlack;
+    int lastWhite;
+    int lastAttempts;
+    boolean winShown = false;
+
+    @Override
+    public void showWelcome() {
+      // No cal guardar res per aquesta prova
+    }
+
+    @Override
+    public void askForGuess() {
+      // En aquesta vista tampoc no ens interessa comptar-ho
+    }
+
+    @Override
+    public void showResult(int black, int white, int attempts) {
+      this.lastBlack = black;
+      this.lastWhite = white;
+      this.lastAttempts = attempts;
+    }
+
+    @Override
+    public void showWin(int attempts) {
+      winShown = true;
+      this.lastAttempts = attempts;
+    }
+
+    @Override
+    public void showGameOver() {
+      // No utilitzat en aquesta prova concreta
+    }
+
+
+  }
+
+  /**
+   * Cas de prova amb el mock RecordingView:
+   * fem un intent correcte i comprovem que la vista rep
+   * 4 negres, 0 blanques i el nombre d'intents correcte.
+   * Prova de caixa negra sobre el controlador amb un segon mock.
+   */
+  @Test
+  void handleGuess_recordsExactResultInRecordingView() {
+    RecordingView view = new RecordingView();
+    Game game = new Game(new Code(new int[]{1, 2, 3, 4}));
+    MastermindController controller = new MastermindController(game, view);
+
+    controller.handleGuess(new int[]{1, 2, 3, 4});
+
+    assertEquals(4, view.lastBlack);
+    assertEquals(0, view.lastWhite);
+    assertEquals(1, view.lastAttempts);
+    assertTrue(view.winShown);
+  }
+
+
 
 
 }
